@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <!-- 设置编码格式UTF-8 -->
+    <constant name="struts.i18n.encoding" value="UTF-8"/>
+    <!-- 对象交由Spring进行管理 -->
+    <constant name="struts.objectFactory" value="spring"/>
+    <!--  -->
+    <package name="basicstruts" extends="struts-default">
+        <!-- 拦截器栈 -->
+        <interceptors>
+            <interceptor name="authorityInterceptor"
+                         class="name.heshun.tmall_ssh.interceptor.AuthInterceptor"/>
+            <interceptor name="categoryNamesBelowSearchInterceptor"
+                         class="name.heshun.tmall_ssh.interceptor.CategoryNamesBelowSearchInterceptor"/>
+            <interceptor name="cartTotalItemNumberInterceptor"
+                         class="name.heshun.tmall_ssh.interceptor.CartTotalItemNumberInterceptor"/>
+            <interceptor-stack name="auth-default">
+                <!--登录状态-->
+                <interceptor-ref name="authorityInterceptor"/>
+                <!--搜索栏-->
+                <interceptor-ref name="categoryNamesBelowSearchInterceptor"/>
+                <!--购物总数-->
+                <interceptor-ref name="cartTotalItemNumberInterceptor"/>
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="auth-default"/>
+    </package>
+</struts>
